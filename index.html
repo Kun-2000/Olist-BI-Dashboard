@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Olist 商業智慧儀表板｜電商營運洞察與決策優化</title>
+    
+    <script type="module" src="https://public.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js"></script>
+
+    <style>
+        :root {
+            --primary-color: #2C3E50;
+            --secondary-color: #34495E;
+            --accent-color: #1A5276;
+            --background-light: #F8F9FA;
+            --text-main: #333333;
+            --text-muted: #666666;
+            --border-color: #E2E8F0;
+        }
+
+        body {
+            font-family: "Helvetica Neue", Helvetica, Arial, "PingFang TC", "微軟正黑體", sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-light);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0 0 1rem 0;
+            font-size: 2.5rem;
+            font-weight: 600;
+        }
+
+        header p {
+            color: white;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 800px;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        section {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            padding: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 0.5rem;
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+        }
+
+        h3 {
+            color: var(--secondary-color);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        p, li {
+            color: var(--text-muted);
+        }
+
+        ul {
+            padding-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        .dashboard-wrapper {
+            width: 100%;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 2rem 0;
+            background: #f9f9f9; 
+        }
+
+        tableau-viz {
+            width: 100%;
+            height: 827px;
+            display: block;
+        }
+
+        code {
+            background-color: #f1f3f5;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9em;
+            color: #d63384;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .content-grid p {
+            margin-bottom: 1rem;
+        }
+
+        @media (min-width: 768px) {
+            .content-grid {
+                grid-template-columns: 1fr 1fr;
+                align-items: start;
+            }
+        }
+
+        .mart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 0;
+            margin-bottom: 1rem;
+        }
+
+        .mart-header h3 {
+            margin: 0; 
+            color: var(--secondary-color);
+        }
+
+        .sql-action-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.1rem;
+            padding: 0.15rem 0.5rem;
+            font-size: 0.75rem;
+            font-family: "Helvetica Neue", Helvetica, Arial, "PingFang TC", "微軟正黑體", sans-serif;
+            color: var(--accent-color);
+            background-color: transparent;
+            border: 1px solid var(--accent-color);
+            border-radius: 4px;
+            text-decoration: none;
+            transition: all 0.2s ease-in-out;
+            white-space: nowrap;
+        }
+
+        .sql-action-btn:hover {
+            background-color: var(--accent-color);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Olist 商業智慧儀表板｜電商營運洞察與決策優化</h1>
+        <p>基於 Top-Down 商業分析框架建構之端到端數據視覺化專案</p>
+    </header>
+
+    <div class="container">
+        
+        <section id="executive-summary">
+            <h2>一、 專案摘要與背景</h2>
+            <h3>分析目標</h3>
+            <p>本專案基於 Brazilian E-Commerce Public Dataset by Olist 資料庫，建置符合商業智慧標準之資料分析框架。分析範疇採 Top-Down 結構，橫跨總體財務表現、供給端結構、中台履約效能至需求端留存四大營運模組，旨在提供管理層具量化基礎之客觀洞察，支援日常營運與決策最佳化。</p>
+
+            <h3>核心發現與營運建議摘要</h3>
+            <p>全站累計商品交易總額（GMV）達 1,526 萬，客單價（AOV）為 160.0。經深度下鑽，歸納出三大營運瓶頸與對應之策略建議：</p>
+            <ol>
+                <li>
+                    <strong style="display: block; margin-bottom: 0.5rem;">營收高度集中與供應鏈單點風險</strong>
+                    <ul>
+                        <li><strong>數據洞察</strong>：全站營收高度集中於前 15 大品類（佔 76.39%）與聖保羅州供應商（佔 64.84%），具備極高之單一節點斷鏈風險。</li>
+                        <li><strong>營運對策</strong>：應策略性扶植次級核心州（如巴拉那州、米納斯吉拉斯州）之供應商，分散過度依賴單一地理區域之運能與斷貨風險。</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong style="display: block; margin-bottom: 0.5rem;">物流時效變異與滿意度臨界點</strong>
+                    <ul>
+                        <li><strong>數據洞察</strong>：第三方物流配送時效變異極大，交叉分析證實「交期延遲 4 天」為顧客滿意度驟降之容忍極限。</li>
+                        <li><strong>營運對策</strong>：將此臨界指標導入客服與物流中台。當系統追蹤到在途訂單預期延遲達 3 天時，即主動觸發服務補救機制，預防性阻斷負評產生。</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong style="display: block; margin-bottom: 0.5rem;">顧客結構失衡與留存能力薄弱</strong>
+                    <ul>
+                        <li><strong>數據洞察</strong>：單次消費客群佔比高達 97.01%，顯示平台獲客紅利無法有效轉化為長期顧客終身價值（LTV）。</li>
+                        <li><strong>營運對策</strong>：針對龐大之單次客群建置自動化行銷旅程，於首購後之流失警戒線前，精準推播專屬誘因以提升回購頻率。</li>
+                    </ul>
+                </li>
+            </ol>
+        </section>
+
+        <section id="data-modeling">
+            <h2>二、 資料處理與市集建構說明</h2>
+            <p>為避免異質商業指標間之運算邏輯互相干擾，本專案依據不同分析命題，分別建構獨立之資料市集。下圖所示為底層資料庫之實體關聯圖（ERD），為後續執行資料萃取與特徵工程之底層架構基準：</p>
+            <div style="margin: 2rem 0; text-align: center;">
+                <img src="./Entity_Relationship_Diagram.png" alt="Olist 資料庫實體關聯圖 (ERD)" style="max-width: 800px; width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--border-color); box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);">
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem;">圖：Olist 電商資料庫原始架構</p>
+            </div>
+
+            <div class="content-grid">
+                <div>
+                    <div class="mart-header">
+                        <h3>1. 財務與交易績效資料市集</h3>
+                        <a href="./SQL/Financial_Transaction_Performance_Mart.sql" target="_blank" rel="noopener noreferrer" class="sql-action-btn">檢視腳本</a>
+                    </div>
+                    <p>採用「寬鬆認列」邏輯，資料切片區間設定為 2017 年 3 月至 2018 年 8 月。排除 <code>canceled</code> 與 <code>unavailable</code> 狀態之訂單，保留全數已成立、處理中及在途訂單，藉以精確還原前端銷售動能與帳面商品交易總額（GMV）。</p>
+                </div>
+    
+                <div>
+                    <div class="mart-header">
+                        <h3>2. 產品組合與供應鏈結構資料市集</h3>
+                        <a href="./SQL/Product_Portfolio_Supply_Chain_Mart.sql" target="_blank" rel="noopener noreferrer" class="sql-action-btn">檢視腳本</a>
+                    </div>
+                    <p>針對訂單明細層級進行拆解，整合商品維度與賣家地理節點。獨立提取商品單價與物流分攤運費，並執行品類名稱正規化，以支援供應鏈單點斷鏈風險與運能集中度之評估。</p>
+                </div>
+
+                <div>
+                    <div class="mart-header">
+                        <h3>3. 履約效能與滿意度資料市集</h3>
+                        <a href="./SQL/Fulfillment_Status_Customer_Satisfaction_Mart.sql" target="_blank" rel="noopener noreferrer" class="sql-action-btn">檢視腳本</a>
+                    </div>
+                    <p>採用「嚴格認列」邏輯，樣本嚴格限縮至最終狀態為 <code>delivered</code> 且端到端時間戳記完整之訂單。於資料清洗階段，強制排除備貨或配送天數為負值等邏輯悖論與異常值，確保服務水準協議（SLA）與滿意度關聯分析之數據真確性。</p>
+                </div>
+
+                <div>
+                    <div class="mart-header">
+                        <h3>4. 顧客價值與 RFM 輪廓資料市集</h3>
+                        <a href="./SQL/Customer_Value_RFM_Profile_Mart.sql" target="_blank" rel="noopener noreferrer" class="sql-action-btn">檢視腳本</a>
+                    </div>
+                    <p>以 <code>customer_unique_id</code> 為歸戶主鍵進行聚合。針對最近一次消費天數（Recency）指標，將資料集之「全站最後訂單日加 1 天」設定為動態基準日，徹底排除靜態歷史資料造成的時間衰退失真，確保量化評估之絕對一致性。</p>
+                </div>
+            </div>
+
+            <h3>5. 進階特徵工程定義</h3>
+            <ul>
+                <li><strong>空間標籤</strong>：提取買賣雙方地理座標與所屬州別，建構跨州交寄（ <code>is_cross_state</code> ）之布林標籤，用以切分區內與跨區之物流效能差異。</li>
+                <li><strong>變數離散化</strong>：將連續型之配送延遲天數轉換為分類標籤（如：提前/準時達交、輕度延遲、中度延遲），以利對齊各級距內之顧客滿意度分佈，精確界定體驗崩潰之臨界點。</li>
+            </ul>
+        </section>
+
+        <section id="dashboard-results">
+            <h2>三、 儀表板分析結果</h2>
+
+            <article>
+                <h3>1. 總體財務與交易動能</h3>
+                <div class="dashboard-wrapper">
+                    <tableau-viz 
+                        id="viz_financial"
+                        src="https://public.tableau.com/views/_17785731576410/2"
+                        toolbar="bottom"
+                        hide-tabs="true">
+                    </tableau-viz>
+                </div>
+
+                <ul>
+                    <li>全站累計有效訂單達 95,405 筆，帶動商品交易總額（GMV）至 15,267K。</li>
+                    <li>大促檔期效應顯著，2017 年黑色星期五（11 月 24 日）創下單日業績峰值（商品交易總額 17.8 萬、訂單量 1,166 筆）。惟當日客單價（AOV）降至 153.0（全站平均 160.0），顯示深度折扣對客單價之稀釋效應。</li>
+                    <li>支付方式以信用卡為主 (78.48%)，Boleto 次之 (17.93%)。由於兩者清算與入帳週期不同，此結構比例可作為營運現金流預估之參考。</li>
+                </ul>
+            </article>
+
+            <article>
+                <h3>2. 產品組合與供給端結構</h3>
+                <div class="dashboard-wrapper">
+                    <tableau-viz 
+                        id="viz_supply_chain"
+                        src="https://public.tableau.com/views/_17774412887920/2"
+                        toolbar="bottom"
+                        hide-tabs="true">
+                    </tableau-viz>
+                </div>
+
+                <ul>
+                    <li>營收頭部效應明顯，前五大主力品類依次為：健康與美容、手錶與禮品、床浴寢具、運動休閒、電腦與配件。</li>
+                    <li>供應商節點呈現極度集中化趨勢，前三大來源州別為聖保羅州（64.84%）、巴拉那州（9.08%）、米納斯吉拉斯州（7.64%）。此空間聚集雖有利於物流攬件規模化與單均成本控制，但亦大幅推升單一地理節點（如氣候、罷工）癱瘓導致全盤斷鏈之系統性風險。</li>
+                </ul>
+            </article>
+
+            <article>
+                <h3>3. 履約效能與滿意度關聯分析</h3>
+                <div class="dashboard-wrapper">
+                    <tableau-viz 
+                        id="viz_fulfillment"
+                        src="https://public.tableau.com/views/_17785727726500/2"
+                        toolbar="bottom"
+                        hide-tabs="true">
+                    </tableau-viz>
+                </div>
+
+                <ul>
+                    <li>準點達交率（OTD）與整體顧客滿意度（CSAT）具備高度正相關。</li>
+                    <li>履約節點拆解顯示供應商理貨天數中位數為 2 天（上樞紐 4 天），作業穩定度高；第三方承運商配送天數中位數為 7 天，然數據分佈變異極大（上鬚達 23 天），為整體交期延宕之核心瓶頸。</li>
+                    <li>延遲級距與星級分佈交叉驗證指出，輕度延遲（1-3 天）之 5 星評價留存率仍達 33.30%；一旦落入中度延遲（4-7 天），1 星負評佔比即飆升至 58.76%，5 星驟降至 14.00%，此特徵確立「交期延遲 4 天」為顧客體驗崩壞之臨界點。</li>
+                </ul>
+            </article>
+
+            <article>
+                <h3>4. 顧客價值與 RFM 分群特徵</h3>
+                <div class="dashboard-wrapper">
+                    <tableau-viz 
+                        id="viz_rfm"
+                        src="https://public.tableau.com/views/RFM_17778655538890/2"
+                        toolbar="bottom"
+                        hide-tabs="true">
+                    </tableau-viz>
+                </div>
+
+                <ul>
+                    <li>平台流量變現呈現「廣泛獲客但低留存」特徵，單次消費客群佔總體高達 97.01%（貢獻 94.39% 營收），具備複購行為之活躍客群僅佔 2.99%。</li>
+                    <li>RFM 矩陣以 2 次為有效回購閾值、客單價中位數 108 元為消費總額基準線、180 天為最近一次消費天數流失警戒線。象限分佈明確顯示買站行為高度固化於單次交易，既有營運模式缺乏有效之顧客終身價值（LTV）延伸與行銷喚醒機制。</li>
+                </ul>
+            </article>
+        </section>
+
+        <section id="operational-recommendations">
+            <h2>四、 營運建議</h2>
+            
+            <h3>1. 顧客關係管理與行銷自動化</h3>
+            <p>針對佔比高達 97.01% 之單次消費客群，建議建置自動化行銷旅程。以首購完成後 30 至 60 天為流失警戒前之觸發節點，精準推播專屬回購誘因或關聯品類推薦。旨在有效提升回購頻率，實質優化獲客成本（CAC）與顧客終身價值（LTV）之財務結構比例。</p>
+
+            <h3>2. 供應鏈韌性與運能規劃</h3>
+            <p>鑑於聖保羅州（SP）高達 64.84% 之供貨集中度，建議策略性扶植巴拉那州（PR）與米納斯吉拉斯州（MG）等次級核心州之供應商池，以消除過度依賴單一地理節點之斷鏈風險。此外，應將大促期間之單日訂單峰值（1,166 筆），明確定錨為未來倉儲吞吐量與物流配額之壓力測試與運能儲備基準。</p>
+
+            <h3>3. 顧客體驗管理與服務補救</h3>
+            <p>建議將「交期延遲 4 天」之滿意度崩潰臨界點，轉譯為客服中台之系統觸發條件。當物流追蹤顯示在途訂單預期延遲達 3 天時，系統即主動介入啟動服務補救機制，發送致歉通知或配發小額折扣碼。透過預防性止血阻斷 1 星負評之產生，以維護平台整體顧客滿意度（CSAT）與長期商譽。</p>
+        </section>
+
+    </div>
+
+</body>
+</html>
