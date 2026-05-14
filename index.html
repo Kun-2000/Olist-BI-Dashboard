@@ -218,7 +218,7 @@
                 <div>
                     <div class="mart-header">
                         <h3>1. 財務與交易績效資料市集</h3>
-                        <a href="./SQL/Financial_Transaction_Performance_Mart.sql" target="_blank" rel="noopener noreferrer" class="sql-action-btn">檢視腳本</a>
+                        <a href="https://github.com/Kun-2000/Olist-BI-Dashboard/blob/main/SQL/Financial_Transaction_Performance_Mart.sql" target="_blank" rel="noopener noreferrer" class="sql-action-btn">檢視腳本</a>
                     </div>
                     <p>採用「寬鬆認列」邏輯，資料切片區間設定為 2017 年 3 月至 2018 年 8 月。排除 <code>canceled</code> 與 <code>unavailable</code> 狀態之訂單，保留全數已成立、處理中及在途訂單，藉以精確還原前端銷售動能與帳面商品交易總額（GMV）。</p>
                 </div>
@@ -226,7 +226,7 @@
                 <div>
                     <div class="mart-header">
                         <h3>2. 產品組合與供應鏈結構資料市集</h3>
-                        <a href="./SQL/Product_Portfolio_Supply_Chain_Mart.sql" target="_blank" rel="noopener noreferrer" class="sql-action-btn">檢視腳本</a>
+                        <a href="https://github.com/Kun-2000/Olist-BI-Dashboard/blob/main/SQL/Product_Portfolio_Supply_Chain_Mart.sql" target="_blank" rel="noopener noreferrer" class="sql-action-btn">檢視腳本</a>
                     </div>
                     <p>針對訂單明細層級進行拆解，整合商品維度與賣家地理節點。獨立提取商品單價與物流分攤運費，並執行品類名稱正規化，以支援供應鏈單點斷鏈風險與運能集中度之評估。</p>
                 </div>
@@ -234,7 +234,7 @@
                 <div>
                     <div class="mart-header">
                         <h3>3. 履約效能與滿意度資料市集</h3>
-                        <a href="./SQL/Fulfillment_Status_Customer_Satisfaction_Mart.sql" target="_blank" rel="noopener noreferrer" class="sql-action-btn">檢視腳本</a>
+                        <a href="https://github.com/Kun-2000/Olist-BI-Dashboard/blob/main/SQL/Fulfillment_Status_Customer_Satisfaction_Mart.sql" target="_blank" rel="noopener noreferrer" class="sql-action-btn">檢視腳本</a>
                     </div>
                     <p>採用「嚴格認列」邏輯，樣本嚴格限縮至最終狀態為 <code>delivered</code> 且端到端時間戳記完整之訂單。於資料清洗階段，強制排除備貨或配送天數為負值等邏輯悖論與異常值，確保服務水準協議（SLA）與滿意度關聯分析之數據真確性。</p>
                 </div>
@@ -242,7 +242,7 @@
                 <div>
                     <div class="mart-header">
                         <h3>4. 顧客價值與 RFM 輪廓資料市集</h3>
-                        <a href="./SQL/Customer_Value_RFM_Profile_Mart.sql" target="_blank" rel="noopener noreferrer" class="sql-action-btn">檢視腳本</a>
+                        <a href="https://github.com/Kun-2000/Olist-BI-Dashboard/blob/main/SQL/Customer_Value_RFM_Profile_Mart.sql" target="_blank" rel="noopener noreferrer" class="sql-action-btn">檢視腳本</a>
                     </div>
                     <p>以 <code>customer_unique_id</code> 為歸戶主鍵進行聚合。針對最近一次消費天數（Recency）指標，將資料集之「全站最後訂單日加 1 天」設定為動態基準日，徹底排除靜態歷史資料造成的時間衰退失真，確保量化評估之絕對一致性。</p>
                 </div>
